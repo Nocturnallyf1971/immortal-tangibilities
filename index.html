@@ -899,7 +899,17 @@
   function handleSubmit(e) {
     e.preventDefault();
     const btn = document.querySelector('.btn-submit');
-    const form = document.getElementById('consult-form');
+    const form = document.getElementById('consult-form');    }).then(function(res) { return res.json(); })
+    .then(function(data) {
+      if (data && data.success === 'true') {
+        btn.textContent = '✦ Request Received — We Will Be In Touch';
+        btn.style.background = 'rgba(201,168,224,0.15)';
+        btn.style.borderColor = 'var(--lavender)';
+        btn.style.color = 'var(--lavender)';
+      } else {
+        throw new Error((data && data.message) ? data.message : 'submission rejected');
+      }
+    }).catch(function() {
     const val = function(n) { var el = form.querySelector('[name="' + n + '"]'); return el ? el.value : ''; };
     btn.textContent = 'Sending...';
     btn.disabled = true;
